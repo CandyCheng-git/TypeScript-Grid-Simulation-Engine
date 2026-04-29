@@ -21,39 +21,40 @@ The project is designed to demonstrate problem framing, requirement analysis, cl
 
 ```text
 TypeScript-Grid-Simulation-Engine/
-├── README.md
-├── package.json
-├── tsconfig.json
-├── vitest.config.ts
-├── .gitignore
+|   README.md
+|   package.json
+|   package-lock.json
+|   tsconfig.json
+|   vitest.config.ts
+|   .gitignore
 │
-├── docs/
-│   ├── 00-phase-plan.md
-│   ├── 01-problem-definition.md
-│   ├── 02-requirement-analysis.md
-│   ├── 03-assumptions-and-edge-cases.md
-│   ├── 04-design-notes.md
-│   ├── 05-test-strategy.md
-│   └── 06-development-setup.md
-│
-├── src/
-│   ├── domain/
-│   ├── grid/
-│   ├── engine/
-│   ├── parser/
-│   ├── output/
-│   └── index.ts
-│
-├── tests/
-│   ├── domain/
-│   ├── grid/
-│   ├── engine/
-│   ├── parser/
-│   └── output/
-│
-└── examples/
-    ├── sample-input.json
-    └── sample-output.txt
++---docs
+|       00-phase-plan.md
+|       01-problem-definition.md
+|       02-requirement-analysis.md
+|       03-assumptions-and-edge-cases.md
+|       04-design-notes.md
+|       05-test-strategy.md
+|       06-development-setup.md
+|       ai-usage.md
+|
++---src
+|   |   index.ts
+|   |
+|   \---domain
+|           Carrier.ts
+|           CellState.ts
+|           Direction.ts
+|           Position.ts
+|           SimulationInput.ts
+|           SimulationResult.ts
+|
+\---tests
+    \---domain
+            Carrier.test.ts
+            Direction.test.ts
+            Position.test.ts
+
 ```
 
 ---
