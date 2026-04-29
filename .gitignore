@@ -1,9 +1,30 @@
-# Basic Node.js .gitignore file
+# Node
 node_modules/
 dist/
 coverage/
-.env
-.DS_Store
 npm-debug.log*
-.vscode/
 
+# Env
+.env
+.env.*
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build / temp
+tmp/
+temp/
+
+# Submission artifacts
+*.zip
+*.7z
+
+# Docs
+docs/00-phase-plan.md
+docs/06-development-setup.md
