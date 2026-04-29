@@ -18,7 +18,7 @@ This project uses the official Node.js 22 Alpine Docker image, so Node.js does n
 
 ```bash
 docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm install
-```
+````
 
 ---
 
@@ -44,16 +44,35 @@ docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm test
 
 ---
 
-## Run TypeScript Build Check
+## Run TypeScript Check
+
+```bash
+docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run typecheck
+```
+
+---
+
+## Run Build Check
 
 ```bash
 docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run build
 ```
 
+In this project, `npm run build` runs TypeScript validation with `tsc --noEmit`. It checks type correctness without generating output files.
+
+---
+
+## Available Scripts
+
+* `npm run dev` — runs the entry point with `tsx`.
+* `npm test` — runs the Vitest test suite once.
+* `npm run typecheck` — checks TypeScript types without generating output files.
+* `npm run build` — runs the TypeScript validation check used before review or submission.
+
 ---
 
 ## Notes
 
-- `node_modules/` is excluded from Git.
-- The project is designed to run through Docker for a consistent development environment.
-- Core logic should be testable without console input.
+* `node_modules/` is excluded from Git.
+* The project is designed to run through Docker for a consistent development environment.
+* Core logic should be testable without console input.

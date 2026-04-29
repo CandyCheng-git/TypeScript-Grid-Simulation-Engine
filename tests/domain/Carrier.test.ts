@@ -5,7 +5,6 @@ import { Position } from "../../src/domain/Position";
 describe("Carrier", () => {
   it("should move to a new position without changing infection status", () => {
     const carrier = new Carrier(1, new Position(0, 0), false);
-
     const movedCarrier = carrier.moveTo(new Position(1, 0));
 
     expect(movedCarrier.id).toBe(1);
@@ -15,7 +14,6 @@ describe("Carrier", () => {
 
   it("should keep infected status when moving", () => {
     const carrier = new Carrier(1, new Position(0, 0), true);
-
     const movedCarrier = carrier.moveTo(new Position(1, 0));
 
     expect(movedCarrier.isInfected).toBe(true);
@@ -23,7 +21,6 @@ describe("Carrier", () => {
 
   it("should return an infected carrier", () => {
     const carrier = new Carrier(1, new Position(0, 0), false);
-
     const infectedCarrier = carrier.infect();
 
     expect(infectedCarrier.id).toBe(1);
