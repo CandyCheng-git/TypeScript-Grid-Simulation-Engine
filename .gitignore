@@ -7,5 +7,3 @@ coverage/
 npm-debug.log*
 .vscode/
 
-# Private files
-docs/How-To-Build-This-Project.md
