@@ -29,13 +29,11 @@ TypeScript-Grid-Simulation-Engine/
 |   .gitignore
 │
 +---docs
-|       00-phase-plan.md
 |       01-problem-definition.md
 |       02-requirement-analysis.md
 |       03-assumptions-and-edge-cases.md
 |       04-design-notes.md
 |       05-test-strategy.md
-|       06-development-setup.md
 |       ai-usage.md
 |
 +---src
@@ -132,13 +130,13 @@ Parsing and formatting are handled by separate components so the core logic rema
 
 ## Documentation
 
-- [Phase Plan](docs/00-phase-plan.md)
+
 - [Problem Definition](docs/01-problem-definition.md)
 - [Requirement Analysis](docs/02-requirement-analysis.md)
 - [Assumptions and Edge Cases](docs/03-assumptions-and-edge-cases.md)
 - [Design Notes](docs/04-design-notes.md)
 - [Test Strategy](docs/05-test-strategy.md)
-- [Development Setup](docs/06-development-setup.md)
+
 
 ---
 
