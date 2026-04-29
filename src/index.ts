@@ -1,0 +1,1 @@
+console.log("TypeScript Grid Simulation Engine started.");

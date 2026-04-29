@@ -1,0 +1,11 @@
+# Basic Node.js .gitignore file
+node_modules/
+dist/
+coverage/
+.env
+.DS_Store
+npm-debug.log*
+.vscode/
+
+# Private files
+docs/How-To-Build-This-Project.md
