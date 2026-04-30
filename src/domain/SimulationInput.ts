@@ -9,9 +9,9 @@ import { Position } from "./Position";
  * passing loose values such as width, height, carriers, and moves separately.
  */
 export interface SimulationInput {
-  readonly width: number;
-  readonly height: number;
-  readonly initialContaminatedPositions: Position[];
-  readonly carriers: Carrier[];
-  readonly moves: Direction[];
+    readonly width: number;
+    readonly height: number;
+    readonly initialContaminatedPositions: Position[];
+    readonly carriers: Carrier[];
+    readonly moves: Direction[];
 }
