@@ -21,13 +21,13 @@ The project is designed to demonstrate problem framing, requirement analysis, cl
 
 ```text
 TypeScript-Grid-Simulation-Engine/
-|   README.md
-|   package.json
+|   docker-compose.yml
+|   Dockerfile
 |   package-lock.json
+|   package.json
+|   README.md
 |   tsconfig.json
-|   vitest.config.ts
-|   .gitignore
-│
+|
 +---docs
 |       01-problem-definition.md
 |       02-requirement-analysis.md
@@ -39,19 +39,32 @@ TypeScript-Grid-Simulation-Engine/
 +---src
 |   |   index.ts
 |   |
-|   \---domain
-|           Carrier.ts
-|           CellState.ts
-|           Direction.ts
-|           Position.ts
-|           SimulationInput.ts
-|           SimulationResult.ts
+|   +---domain
+|   |       Carrier.ts
+|   |       CellState.ts
+|   |       Direction.ts
+|   |       Position.ts
+|   |       SimulationInput.ts
+|   |       SimulationResult.ts
+|   |
+|   +---grid
+|   |       ContaminationGrid.ts
+|   |
+|   \---parser
+|           InputParser.ts
+|           ValidationError.ts
 |
 \---tests
-    \---domain
-            Carrier.test.ts
-            Direction.test.ts
-            Position.test.ts
+    +---domain
+    |       Carrier.test.ts
+    |       Direction.test.ts
+    |       Position.test.ts
+    |
+    +---grid
+    |       ContaminationGrid.test.ts
+    |
+    \---parser
+            InputParser.test.ts
 
 ```
 
