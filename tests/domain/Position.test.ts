@@ -29,4 +29,4 @@ describe("Position", () => {
 
     expect(position.toKey()).toBe("1,2");
   });
-});
+  });

@@ -9,7 +9,7 @@ import { Position } from "./Position";
  * simulation engine.
  */
 export interface SimulationResult {
-  readonly carriers: Carrier[];
-  readonly contaminatedPositions: Position[];
-  readonly infectedCarrierIds: number[];
+    readonly carriers: Carrier[];
+    readonly contaminatedPositions: Position[];
+    readonly infectedCarrierIds: number[];
 }

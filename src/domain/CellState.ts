@@ -5,6 +5,6 @@
  * especially when checking or updating contamination during simulation.
  */
 export enum CellState {
-  Clean = "CLEAN",
-  Contaminated = "CONTAMINATED"
+    Clean = "CLEAN",
+    Contaminated = "CONTAMINATED"
 }
