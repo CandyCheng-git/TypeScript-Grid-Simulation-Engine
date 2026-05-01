@@ -29,13 +29,11 @@ TypeScript-Grid-Simulation-Engine/
 |   tsconfig.json
 |
 +---docs
-|       00-phase-plan.md
 |       01-problem-definition.md
 |       02-requirement-analysis.md
 |       03-assumptions-and-edge-cases.md
 |       04-design-notes.md
 |       05-test-strategy.md
-|       06-development-setup.md
 |       ai-usage.md
 |
 +---src
