@@ -29,11 +29,13 @@ TypeScript-Grid-Simulation-Engine/
 |   tsconfig.json
 |
 +---docs
+|       00-phase-plan.md
 |       01-problem-definition.md
 |       02-requirement-analysis.md
 |       03-assumptions-and-edge-cases.md
 |       04-design-notes.md
 |       05-test-strategy.md
+|       06-development-setup.md
 |       ai-usage.md
 |
 +---src
@@ -47,6 +49,9 @@ TypeScript-Grid-Simulation-Engine/
 |   |       SimulationInput.ts
 |   |       SimulationResult.ts
 |   |
+|   +---engine
+|   |       SimulationEngine.ts
+|   |
 |   +---grid
 |   |       ContaminationGrid.ts
 |   |
@@ -59,6 +64,11 @@ TypeScript-Grid-Simulation-Engine/
     |       Carrier.test.ts
     |       Direction.test.ts
     |       Position.test.ts
+    |
+    +---engine
+    |       SimulationEngine.basic.test.ts
+    |       SimulationEngine.carriers.test.ts
+    |       SimulationEngine.infection.test.ts
     |
     +---grid
     |       ContaminationGrid.test.ts
