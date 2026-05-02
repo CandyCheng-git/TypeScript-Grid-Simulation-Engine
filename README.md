@@ -53,6 +53,9 @@ TypeScript-Grid-Simulation-Engine/
 |   +---grid
 |   |       ContaminationGrid.ts
 |   |
+|   +---output
+|   |       ResultFormatter.ts
+|   |
 |   \---parser
 |           InputParser.ts
 |           ValidationError.ts
@@ -70,6 +73,9 @@ TypeScript-Grid-Simulation-Engine/
     |
     +---grid
     |       ContaminationGrid.test.ts
+    |
+    +---output
+    |       ResultFormatter.test.ts
     |
     \---parser
             InputParser.test.ts
