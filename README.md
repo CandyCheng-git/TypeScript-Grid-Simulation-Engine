@@ -2,9 +2,9 @@
 
 A type-safe 2D grid simulation engine built with TypeScript.
 
-This project simulates how contamination spreads across a 2D grid. Carriers move through the grid based on movement commands. When a carrier enters a contaminated cell, the carrier becomes infected. Once infected, every cell visited by that carrier becomes contaminated.
+This project simulates how contamination spreads across a rectangular grid. Carriers move through the grid using direction commands. When a carrier enters a contaminated cell, the carrier becomes infected. Once infected, every cell visited by that carrier becomes contaminated.
 
-The project demonstrates clean responsibility separation, 2D array handling, deterministic simulation logic, edge-case ownership, CLI integration, and automated testing.
+The project focuses on clear responsibility separation, 2D array handling, deterministic simulation logic, edge-case coverage, and automated testing.
 
 ---
 
@@ -14,87 +14,93 @@ The project demonstrates clean responsibility separation, 2D array handling, det
 - Node.js
 - Vitest
 - Docker
+- Prettier
 
 ---
 
-## Project Structure
+## Quick Start
 
-```text
-TypeScript-Grid-Simulation-Engine/
-|   docker-compose.yml
-|   Dockerfile
-|   package-lock.json
-|   package.json
-|   README.md
-|   tsconfig.json
-|
-+---docs
-|       01-problem-definition.md
-|       02-requirement-analysis.md
-|       03-assumptions-and-edge-cases.md
-|       04-design-notes.md
-|       05-test-strategy.md
-|       ai-usage.md
-|
-+---examples
-|       sample-input.json
-|       sample-output.txt
-|
-+---src
-|   |   index.ts
-|   |
-|   +---domain
-|   |       Carrier.ts
-|   |       CellState.ts
-|   |       Direction.ts
-|   |       Position.ts
-|   |       SimulationInput.ts
-|   |       SimulationResult.ts
-|   |
-|   +---engine
-|   |       SimulationEngine.ts
-|   |
-|   +---grid
-|   |       ContaminationGrid.ts
-|   |
-|   +---output
-|   |       ResultFormatter.ts
-|   |
-|   \---parser
-|           InputParser.ts
-|           ValidationError.ts
-|
-\---tests
-    |   index.test.ts
-    |
-    +---domain
-    |       Carrier.test.ts
-    |       Direction.test.ts
-    |       Position.test.ts
-    |
-    +---engine
-    |       SimulationEngine.basic.test.ts
-    |       SimulationEngine.carriers.test.ts
-    |       SimulationEngine.infection.test.ts
-    |
-    +---grid
-    |       ContaminationGrid.test.ts
-    |
-    +---integration
-    |       index.test.ts
-    |
-    +---output
-    |       ResultFormatter.test.ts
-    |
-    \---parser
-            InputParser.test.ts
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run the sample simulation
+
+```bash
+npm run dev
+```
+
+### Run tests
+
+```bash
+npm test
+```
+
+### Run TypeScript build check
+
+```bash
+npm run build
+```
+
+### Check formatting
+
+```bash
+npm run format:check
+```
+
+### Format files
+
+```bash
+npm run format
+```
+
+---
+
+## Run with Docker
+
+### Install dependencies
+
+```bash
+docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm install
+```
+
+### Run the sample simulation
+
+```bash
+docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run dev
+```
+
+### Run tests
+
+```bash
+docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm test
+```
+
+### Run build check
+
+```bash
+docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run build
+```
+
+### Check formatting
+
+```bash
+docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run format:check
+```
+
+If using WSL or Git Bash, `$(pwd)` may be more reliable:
+
+```bash
+docker run --rm -v "$(pwd)":/app -w /app node:22-alpine npm test
 ```
 
 ---
 
 ## Example Input
 
-The CLI entry point reads from:
+The sample input is stored in:
 
 ```text
 examples/sample-input.json
@@ -129,7 +135,7 @@ Example:
 
 ## Example Output
 
-Expected sample output is documented in:
+The expected sample output is stored in:
 
 ```text
 examples/sample-output.txt
@@ -147,167 +153,219 @@ Final carrier positions:
 
 ---
 
-## Run the Project
-
-```bash
-docker compose up --build
-```
-
-This runs the CLI entry point:
+## Project Structure
 
 ```text
-src/index.ts
-```
-
-The CLI flow is:
-
-```text
-sample-input.json
--> InputParser
--> SimulationEngine
--> ResultFormatter
--> console output
+TypeScript-Grid-Simulation-Engine/
+├── README.md
+├── package.json
+├── tsconfig.json
+├── vitest.config.ts
+├── Dockerfile
+├── docker-compose.yml
+├── .gitignore
+├── .prettierrc.json
+├── .prettierignore
+│
+├── docs/
+│   ├── 00-phase-plan.md
+│   ├── 01-problem-definition.md
+│   ├── 02-requirement-analysis.md
+│   ├── 03-assumptions-and-edge-cases.md
+│   ├── 04-design-notes.md
+│   ├── 05-test-strategy.md
+│   ├── 06-development-setup.md
+│   └── ai-usage.md
+│
+├── examples/
+│   ├── sample-input.json
+│   └── sample-output.txt
+│
+├── src/
+│   ├── domain/
+│   │   ├── Position.ts
+│   │   ├── Direction.ts
+│   │   ├── CellState.ts
+│   │   ├── Carrier.ts
+│   │   ├── SimulationInput.ts
+│   │   └── SimulationResult.ts
+│   │
+│   ├── grid/
+│   │   └── ContaminationGrid.ts
+│   │
+│   ├── parser/
+│   │   ├── InputParser.ts
+│   │   └── ValidationError.ts
+│   │
+│   ├── engine/
+│   │   └── SimulationEngine.ts
+│   │
+│   ├── output/
+│   │   └── ResultFormatter.ts
+│   │
+│   └── index.ts
+│
+└── tests/
+    ├── domain/
+    ├── grid/
+    ├── parser/
+    ├── engine/
+    └── output/
 ```
 
 ---
 
-## Run Tests
+## Core Rules
 
-```bash
-docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm test
-```
-
-For WSL / Git Bash:
-
-```bash
-docker run --rm -v "$(pwd)":/app -w /app node:22-alpine npm test
-```
-
----
-
-## Run TypeScript Build Check
-
-```bash
-docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run build
-```
-
-For WSL / Git Bash:
-
-```bash
-docker run --rm -v "$(pwd)":/app -w /app node:22-alpine npm run build
-```
-
----
-
-## Test Coverage Areas
-
-The test suite covers:
-
-- domain model behaviour
-- valid and invalid movement directions
-- 2D grid contamination state
-- invalid grid positions
-- wraparound movement in all four directions
-- carrier infection rules
-- carriers starting on contaminated cells
-- multiple carriers sharing the same cell
-- duplicate contaminated positions
-- parser validation
-- result formatting
-- CLI integration through `src/index.ts`
+- Coordinates use zero-based indexing.
+- The top-left cell is `(0, 0)`.
+- The grid is stored internally as `grid[y][x]`.
+- `x` represents the column.
+- `y` represents the row.
+- Movement commands are:
+  - `U`: move up
+  - `D`: move down
+  - `L`: move left
+  - `R`: move right
+- Movement wraps around grid boundaries.
+- A carrier becomes infected when it enters a contaminated cell.
+- A carrier that starts on a contaminated cell is infected before movement.
+- Once infected, every cell visited by that carrier becomes contaminated.
+- Duplicate contaminated cells appear only once in the final output.
 
 ---
 
 ## Key Design Decisions
 
-### 1. The grid uses a 2D array
+### 1. The grid owns boundary and wraparound logic
 
-The contamination state is stored as:
+Wrapping depends on grid width and height, so this logic belongs to `ContaminationGrid`, not `Position`.
 
-```ts
-grid[y][x]
-```
+`Position` only stores coordinates.
 
-`x` represents the column.  
-`y` represents the row.
+### 2. The grid stores contamination state only
 
-This keeps grid access direct and predictable.
+The 2D array stores whether a cell is clean or contaminated.
 
-### 2. Carriers are stored separately from the grid
+Carriers are stored separately because they are moving entities with their own identity, position, and infection status.
 
-The 2D array stores contamination state only.
-
-Carriers are moving entities with identity, position, and infection status, so they are stored separately in an array.
-
-This avoids coupling grid storage with carrier lifecycle management.
-
-### 3. Position does not handle wrapping
-
-`Position` only represents coordinates.
-
-Boundary and wraparound behaviour depends on grid size, so that logic belongs to `ContaminationGrid`.
-
-### 4. SimulationEngine does not parse or format data
+### 3. The simulation engine does not parse or format data
 
 `SimulationEngine` receives structured input and returns structured output.
 
-Parsing and formatting are handled by separate components so the core logic remains testable without file access or console output.
+It does not read files, parse JSON, or print console output.
 
-### 5. index.ts is kept thin
+### 4. Parser and formatter are separate input/output concerns
 
-`src/index.ts` is only the CLI composition layer.
+`InputParser` converts raw JSON or objects into `SimulationInput`.
 
-It reads the sample input, parses it, runs the simulation, formats the result, and prints the output.
+`ResultFormatter` converts `SimulationResult` into readable text output.
 
-It does not contain simulation rules.
+### 5. Tests are grouped by responsibility
+
+Tests are organised by domain, grid, parser, engine, and output behaviour instead of being placed in one large test file.
 
 ---
 
 ## Assumptions
 
-- Coordinates use zero-based indexing.
-- The grid is stored internally as `grid[y][x]`.
-- `x` represents the column.
-- `y` represents the row.
-- Movement wraps around grid boundaries.
+- The grid must have positive integer width and height.
+- Coordinates must be integers.
+- Coordinates must be inside the grid before simulation starts.
+- Movement commands must be one of `U`, `D`, `L`, or `R`.
 - Multiple carriers may occupy the same cell.
-- Duplicate contaminated positions are treated as a single contaminated cell.
-- A carrier that starts on a contaminated cell becomes infected immediately.
+- Duplicate contaminated positions are treated as one contaminated cell.
 - Once a carrier becomes infected, it remains infected.
-- An infected carrier contaminates every cell it visits after infection.
+- Empty carrier lists and empty movement sequences are valid inputs.
+
+---
+
+## Test Coverage
+
+The test suite covers:
+
+- position equality
+- direction validation
+- carrier movement and infection status
+- 2D grid creation
+- contamination checks
+- invalid grid positions
+- wraparound movement in all four directions
+- parser validation
+- initial contaminated-cell infection
+- infected carriers contaminating visited cells
+- multiple carrier behaviour
+- output formatting
+
+Run:
+
+```bash
+npm test
+```
+
+---
+
+## Development Checklist
+
+Before committing changes, run:
+
+```bash
+npm run format:check
+npm test
+npm run build
+npm run dev
+```
+
+With Docker:
+
+```bash
+docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run format:check
+docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm test
+docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run build
+docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run dev
+```
 
 ---
 
 ## Documentation
 
-- [Problem Definition](docs/01-problem-definition.md)
-- [Requirement Analysis](docs/02-requirement-analysis.md)
-- [Assumptions and Edge Cases](docs/03-assumptions-and-edge-cases.md)
-- [Design Notes](docs/04-design-notes.md)
-- [Test Strategy](docs/05-test-strategy.md)
+Detailed engineering notes are stored in the `docs/` folder:
+
+- `00-phase-plan.md`
+- `01-problem-definition.md`
+- `02-requirement-analysis.md`
+- `03-assumptions-and-edge-cases.md`
+- `04-design-notes.md`
+- `05-test-strategy.md`
+- `06-development-setup.md`
+- `ai-usage.md`
+
+The README is kept concise so reviewers can quickly understand how to run, test, and evaluate the project.
 
 ---
 
 ## AI Usage
 
-AI tools were used to support the development process, mainly for:
+AI tools were used to assist with:
 
 - brainstorming project structure
-- identifying edge cases and ambiguous requirements
-- reviewing responsibility separation between parser, grid, engine, formatter, and CLI entry point
+- identifying possible edge cases
+- reviewing responsibility separation
 - suggesting test scenarios
-- tightening README wording
+- improving documentation clarity
 
-I made the final design decisions, implemented the code, wrote and ran the tests, reviewed the output, and validated the final behaviour myself.
+The final design decisions, implementation, testing, debugging, and validation were completed and reviewed by me.
 
-AI was used as a support and review tool, not as an automatic replacement for implementation or validation.
+A more detailed AI usage summary is available in:
 
-- [AI Usage and Prompt History](docs/ai-usage.md)
+```text
+docs/ai-usage.md
+```
 
 ---
 
 ## Future Improvements
 
-- Add support for passing a custom input file path as a CLI argument.
-- Add JSON output for automated verification.
-- Add a visual grid renderer for demonstration.
+- Add CLI support for custom input file paths.
+- Add JSON output for easier automated verification.
+- Add a small visual grid renderer for demonstration purposes.

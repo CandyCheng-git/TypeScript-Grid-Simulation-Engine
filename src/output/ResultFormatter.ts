@@ -2,12 +2,6 @@ import { Carrier } from "../domain/Carrier";
 import { Position } from "../domain/Position";
 import { SimulationResult } from "../domain/SimulationResult";
 
-/**
- * Converts a structured simulation result into a readable text summary.
- *
- * The formatter only handles presentation. It does not change simulation state,
- * recalculate infection results, or apply grid rules.
- */
 export class ResultFormatter {
     format(result: SimulationResult): string {
         return [

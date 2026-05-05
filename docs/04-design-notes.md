@@ -6,14 +6,14 @@ This document explains the main design decisions and responsibility boundaries.
 
 ## Responsibility Boundaries
 
-| Component | Responsibility | Should Not Do |
-|---|---|---|
-| `Position` | Store `x` and `y` coordinates | Handle wrapping, validation, or infection |
-| `Carrier` | Store carrier identity, position, and infection status | Access grid cells directly |
-| `ContaminationGrid` | Own the 2D array, contamination state, validation, and wraparound movement | Run the full simulation |
-| `SimulationEngine` | Coordinate the simulation flow and infection rules | Parse input or format output |
-| `InputParser` | Convert raw input into `SimulationInput` | Run simulation logic |
-| `ResultFormatter` | Convert `SimulationResult` into readable output | Change simulation state |
+| Component           | Responsibility                                                             | Should Not Do                             |
+| ------------------- | -------------------------------------------------------------------------- | ----------------------------------------- |
+| `Position`          | Store `x` and `y` coordinates                                              | Handle wrapping, validation, or infection |
+| `Carrier`           | Store carrier identity, position, and infection status                     | Access grid cells directly                |
+| `ContaminationGrid` | Own the 2D array, contamination state, validation, and wraparound movement | Run the full simulation                   |
+| `SimulationEngine`  | Coordinate the simulation flow and infection rules                         | Parse input or format output              |
+| `InputParser`       | Convert raw input into `SimulationInput`                                   | Run simulation logic                      |
+| `ResultFormatter`   | Convert `SimulationResult` into readable output                            | Change simulation state                   |
 
 ---
 
@@ -22,7 +22,7 @@ This document explains the main design decisions and responsibility boundaries.
 The grid is stored internally as:
 
 ```ts
-grid[y][x]
+grid[y][x];
 ```
 
 `x` represents the column.  
