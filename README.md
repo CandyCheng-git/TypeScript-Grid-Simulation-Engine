@@ -2,9 +2,9 @@
 
 A type-safe 2D grid simulation engine built with TypeScript.
 
-This project simulates how contamination spreads across a 2D grid. A group of carriers move through the grid based on movement commands. When a carrier enters a contaminated cell, the carrier becomes infected. Once infected, every cell visited by that carrier becomes contaminated.
+This project simulates how contamination spreads across a 2D grid. Carriers move through the grid based on movement commands. When a carrier enters a contaminated cell, the carrier becomes infected. Once infected, every cell visited by that carrier becomes contaminated.
 
-The project is designed to demonstrate problem framing, requirement analysis, clean responsibility separation, 2D array handling, edge-case ownership, and automated testing.
+The project demonstrates clean responsibility separation, 2D array handling, deterministic simulation logic, edge-case ownership, CLI integration, and automated testing.
 
 ---
 
@@ -36,6 +36,10 @@ TypeScript-Grid-Simulation-Engine/
 |       05-test-strategy.md
 |       ai-usage.md
 |
++---examples
+|       sample-input.json
+|       sample-output.txt
+|
 +---src
 |   |   index.ts
 |   |
@@ -61,6 +65,8 @@ TypeScript-Grid-Simulation-Engine/
 |           ValidationError.ts
 |
 \---tests
+    |   index.test.ts
+    |
     +---domain
     |       Carrier.test.ts
     |       Direction.test.ts
@@ -74,12 +80,69 @@ TypeScript-Grid-Simulation-Engine/
     +---grid
     |       ContaminationGrid.test.ts
     |
+    +---integration
+    |       index.test.ts
+    |
     +---output
     |       ResultFormatter.test.ts
     |
     \---parser
             InputParser.test.ts
+```
 
+---
+
+## Example Input
+
+The CLI entry point reads from:
+
+```text
+examples/sample-input.json
+```
+
+Example:
+
+```json
+{
+  "grid": {
+    "width": 4,
+    "height": 4
+  },
+  "initialContaminatedPositions": [
+    [1, 1]
+  ],
+  "carriers": [
+    {
+      "id": 1,
+      "position": [0, 1]
+    },
+    {
+      "id": 2,
+      "position": [3, 3]
+    }
+  ],
+  "moves": "RDR"
+}
+```
+
+---
+
+## Example Output
+
+Expected sample output is documented in:
+
+```text
+examples/sample-output.txt
+```
+
+Example:
+
+```text
+Infected carriers: 1
+Contaminated positions: (1,1), (1,2), (2,2)
+Final carrier positions:
+- Carrier 1: (2,2), infected
+- Carrier 2: (1,0), clean
 ```
 
 ---
@@ -90,12 +153,34 @@ TypeScript-Grid-Simulation-Engine/
 docker compose up --build
 ```
 
+This runs the CLI entry point:
+
+```text
+src/index.ts
+```
+
+The CLI flow is:
+
+```text
+sample-input.json
+-> InputParser
+-> SimulationEngine
+-> ResultFormatter
+-> console output
+```
+
 ---
 
 ## Run Tests
 
 ```bash
 docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm test
+```
+
+For WSL / Git Bash:
+
+```bash
+docker run --rm -v "$(pwd)":/app -w /app node:22-alpine npm test
 ```
 
 ---
@@ -105,6 +190,31 @@ docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm test
 ```bash
 docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run build
 ```
+
+For WSL / Git Bash:
+
+```bash
+docker run --rm -v "$(pwd)":/app -w /app node:22-alpine npm run build
+```
+
+---
+
+## Test Coverage Areas
+
+The test suite covers:
+
+- domain model behaviour
+- valid and invalid movement directions
+- 2D grid contamination state
+- invalid grid positions
+- wraparound movement in all four directions
+- carrier infection rules
+- carriers starting on contaminated cells
+- multiple carriers sharing the same cell
+- duplicate contaminated positions
+- parser validation
+- result formatting
+- CLI integration through `src/index.ts`
 
 ---
 
@@ -121,13 +231,15 @@ grid[y][x]
 `x` represents the column.  
 `y` represents the row.
 
-This keeps the grid representation direct and readable.
+This keeps grid access direct and predictable.
 
 ### 2. Carriers are stored separately from the grid
 
 The 2D array stores contamination state only.
 
 Carriers are moving entities with identity, position, and infection status, so they are stored separately in an array.
+
+This avoids coupling grid storage with carrier lifecycle management.
 
 ### 3. Position does not handle wrapping
 
@@ -139,7 +251,15 @@ Boundary and wraparound behaviour depends on grid size, so that logic belongs to
 
 `SimulationEngine` receives structured input and returns structured output.
 
-Parsing and formatting are handled by separate components so the core logic remains testable without console input.
+Parsing and formatting are handled by separate components so the core logic remains testable without file access or console output.
+
+### 5. index.ts is kept thin
+
+`src/index.ts` is only the CLI composition layer.
+
+It reads the sample input, parses it, runs the simulation, formats the result, and prints the output.
+
+It does not contain simulation rules.
 
 ---
 
@@ -147,23 +267,24 @@ Parsing and formatting are handled by separate components so the core logic rema
 
 - Coordinates use zero-based indexing.
 - The grid is stored internally as `grid[y][x]`.
+- `x` represents the column.
+- `y` represents the row.
 - Movement wraps around grid boundaries.
 - Multiple carriers may occupy the same cell.
 - Duplicate contaminated positions are treated as a single contaminated cell.
 - A carrier that starts on a contaminated cell becomes infected immediately.
 - Once a carrier becomes infected, it remains infected.
+- An infected carrier contaminates every cell it visits after infection.
 
 ---
 
 ## Documentation
-
 
 - [Problem Definition](docs/01-problem-definition.md)
 - [Requirement Analysis](docs/02-requirement-analysis.md)
 - [Assumptions and Edge Cases](docs/03-assumptions-and-edge-cases.md)
 - [Design Notes](docs/04-design-notes.md)
 - [Test Strategy](docs/05-test-strategy.md)
-
 
 ---
 
@@ -173,12 +294,13 @@ AI tools were used to support the development process, mainly for:
 
 - brainstorming project structure
 - identifying edge cases and ambiguous requirements
-- reviewing whether assumptions and design decisions were clearly documented
+- reviewing responsibility separation between parser, grid, engine, formatter, and CLI entry point
+- suggesting test scenarios
 - tightening README wording
 
 I made the final design decisions, implemented the code, wrote and ran the tests, reviewed the output, and validated the final behaviour myself.
 
-AI was not used to blindly generate and submit the final solution.
+AI was used as a support and review tool, not as an automatic replacement for implementation or validation.
 
 - [AI Usage and Prompt History](docs/ai-usage.md)
 
@@ -186,6 +308,6 @@ AI was not used to blindly generate and submit the final solution.
 
 ## Future Improvements
 
-- Add a visual grid renderer.
+- Add support for passing a custom input file path as a CLI argument.
 - Add JSON output for automated verification.
-- Add a CLI argument for loading custom input files.
+- Add a visual grid renderer for demonstration.

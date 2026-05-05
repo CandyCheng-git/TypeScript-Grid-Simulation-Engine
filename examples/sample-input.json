@@ -1,0 +1,29 @@
+{
+    "grid": {
+        "width": 4,
+        "height": 4
+    },
+    "initialContaminatedPositions": [
+        [
+            1,
+            1
+        ]
+    ],
+    "carriers": [
+        {
+            "id": 1,
+            "position": [
+                0,
+                1
+            ]
+        },
+        {
+            "id": 2,
+            "position": [
+                3,
+                3
+            ]
+        }
+    ],
+    "moves": "RDR"
+}
