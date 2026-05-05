@@ -4,12 +4,6 @@ import { SimulationEngine } from "./engine/SimulationEngine";
 import { ResultFormatter } from "./output/ResultFormatter";
 import { InputParser } from "./parser/InputParser";
 
-/**
- * CLI entry point for running the sample grid simulation.
- *
- * This file only coordinates input loading, parsing, simulation, and output
- * formatting. Core simulation rules stay inside SimulationEngine.
- */
 function main(): void {
     try {
         const rawInput = loadSampleInput();

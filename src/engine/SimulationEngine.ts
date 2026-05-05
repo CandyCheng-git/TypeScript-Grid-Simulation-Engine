@@ -4,73 +4,61 @@ import { SimulationInput } from "../domain/SimulationInput";
 import { SimulationResult } from "../domain/SimulationResult";
 import { ContaminationGrid } from "../grid/ContaminationGrid";
 
-/**
- * Runs the contamination simulation using validated domain input.
- *
- * The engine coordinates the simulation flow only: it builds the grid, applies
- * initial contamination, moves carriers, updates infection state, and returns a
- * structured result. Raw input parsing and output formatting stay outside this class.
- */
 export class SimulationEngine {
-    run(input: SimulationInput): SimulationResult {
-        const grid = this.createGrid(input);
+  run(input: SimulationInput): SimulationResult {
+    const grid = this.createGrid(input);
 
-        let carriers = input.carriers.map((carrier) =>
-            this.applyInitialContamination(carrier, grid)
-        );
+    let carriers = input.carriers.map((carrier) =>
+      this.applyInitialContamination(carrier, grid)
+    );
 
-        for (const direction of input.moves) {
-            carriers = carriers.map((carrier) =>
-                this.moveCarrier(carrier, direction, grid)
-            );
-        }
-
-        return {
-            carriers,
-            contaminatedPositions: grid.getContaminatedPositions(),
-            infectedCarrierIds: carriers
-                .filter((carrier) => carrier.isInfected)
-                .map((carrier) => carrier.id)
-        };
+    for (const direction of input.moves) {
+      carriers = carriers.map((carrier) => this.moveCarrier(carrier, direction, grid));
     }
 
-    private createGrid(input: SimulationInput): ContaminationGrid {
-        const grid = new ContaminationGrid(input.width, input.height);
+    return {
+      carriers,
+      contaminatedPositions: grid.getContaminatedPositions(),
+      infectedCarrierIds: carriers
+        .filter((carrier) => carrier.isInfected)
+        .map((carrier) => carrier.id)
+    };
+  }
 
-        for (const position of input.initialContaminatedPositions) {
-            grid.contaminate(position);
-        }
+  private createGrid(input: SimulationInput): ContaminationGrid {
+    const grid = new ContaminationGrid(input.width, input.height);
 
-        return grid;
+    for (const position of input.initialContaminatedPositions) {
+      grid.contaminate(position);
     }
 
-    private applyInitialContamination(
-        carrier: Carrier,
-        grid: ContaminationGrid
-    ): Carrier {
-        if (grid.isContaminated(carrier.position)) {
-            return carrier.infect();
-        }
+    return grid;
+  }
 
-        return carrier;
+  private applyInitialContamination(carrier: Carrier, grid: ContaminationGrid): Carrier {
+    if (grid.isContaminated(carrier.position)) {
+      return carrier.infect();
     }
 
-    private moveCarrier(
-        carrier: Carrier,
-        direction: Direction,
-        grid: ContaminationGrid
-    ): Carrier {
-        const nextPosition = grid.move(carrier.position, direction);
-        let nextCarrier = carrier.moveTo(nextPosition);
+    return carrier;
+  }
 
-        if (grid.isContaminated(nextPosition)) {
-            nextCarrier = nextCarrier.infect();
-        }
+  private moveCarrier(
+    carrier: Carrier,
+    direction: Direction,
+    grid: ContaminationGrid
+  ): Carrier {
+    const nextPosition = grid.move(carrier.position, direction);
+    let nextCarrier = carrier.moveTo(nextPosition);
 
-        if (nextCarrier.isInfected) {
-            grid.contaminate(nextPosition);
-        }
-
-        return nextCarrier;
+    if (grid.isContaminated(nextPosition)) {
+      nextCarrier = nextCarrier.infect();
     }
+
+    if (nextCarrier.isInfected) {
+      grid.contaminate(nextPosition);
+    }
+
+    return nextCarrier;
+  }
 }
