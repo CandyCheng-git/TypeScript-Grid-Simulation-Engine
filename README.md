@@ -168,13 +168,11 @@ TypeScript-Grid-Simulation-Engine/
 ├── .prettierignore
 │
 ├── docs/
-│   ├── 00-phase-plan.md
 │   ├── 01-problem-definition.md
 │   ├── 02-requirement-analysis.md
 │   ├── 03-assumptions-and-edge-cases.md
 │   ├── 04-design-notes.md
 │   ├── 05-test-strategy.md
-│   ├── 06-development-setup.md
 │   └── ai-usage.md
 │
 ├── examples/
@@ -331,13 +329,11 @@ docker run --rm -v ${PWD}:/app -w /app node:22-alpine npm run dev
 
 Detailed engineering notes are stored in the `docs/` folder:
 
-- `00-phase-plan.md`
 - `01-problem-definition.md`
 - `02-requirement-analysis.md`
 - `03-assumptions-and-edge-cases.md`
 - `04-design-notes.md`
 - `05-test-strategy.md`
-- `06-development-setup.md`
 - `ai-usage.md`
 
 The README is kept concise so reviewers can quickly understand how to run, test, and evaluate the project.
